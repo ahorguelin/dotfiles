@@ -1,0 +1,42 @@
+configuration {
+	display-drun: "Apps";
+	modes: "window,drun,run,emoji";
+	font: "hack 14";
+	icon-theme: "Papirus";
+	fixed-num-lines: true; 
+	terminal: "alacritty";
+	drun-display-format: "{icon} {name}";
+  timeout {
+      action: "kb-cancel";
+      delay:  0;
+  }
+  filebrowser {
+      directories-first: true;
+      sorting-method:    "name";
+  }
+}
+@theme "/usr/share/rofi/themes/solarized.rasi"
+listview {
+	lines: 4;
+	columns: 1;
+}
+window{
+	width: 33%;
+}
+
+textbox {
+  padding: 8px 16px;
+}
+
+element {
+  border: 0 0 1px 0;
+  padding: 16px;
+}
+
+element selected {
+  background-color: #2e343f;
+}
+
+element-icon {
+  margin: 0 15px 0 0;
+}
