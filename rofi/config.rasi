@@ -15,7 +15,10 @@ configuration {
       sorting-method:    "name";
   }
 }
-@theme "/usr/share/rofi/themes/solarized.rasi"
+
+
+@import "~/.cache/wal/colors-rofi-dark"
+
 listview {
 	lines: 4;
 	columns: 1;

@@ -28,17 +28,25 @@ bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 
+# reload the configuration file
+bindsym $mod+Shift+c reload
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+r restart
+
 
 ####    COSMETICS       ####
-#colors
-# class                 border  backgr. text    indicator child_border
-client.focused          #1d1f21 #1d1f21 #c5c8c6 #073642   #073642
-client.focused_inactive #969896 #969896 #c5c8c6 #002b36   #002b36
-client.unfocused        #969896 #969896 #969896 #292d2e   #222222
-client.urgent           #cc6666 #cc6666 #c5c8c6 #900000   #900000
-client.placeholder      #000000 #0c0c0c #c5c8c6 #000000   #0c0c0c
+# getting colors from pywal
+set_from_resource $fg i3wm.color7 #f0f0f0
+set_from_resource $bg i3wm.color2 #f0f0f0
 
-client.background       #ffffff
+# class                 border  backgr. text indicator child_border
+client.focused          $bg     $bg     $fg  $bg       $bg
+client.focused_inactive $bg     $bg     $fg  $bg       $bg
+client.unfocused        $bg     $bg     $fg  $bg       $bg
+client.urgent           $bg     $bg     $fg  $bg       $bg
+client.placeholder      $bg     $bg     $fg  $bg       $bg
+
+client.background       $bg
 
 #widows
 default_border pixel 0
@@ -51,38 +59,41 @@ gaps inner 5px
 bindsym $mod+q kill
 
 # change focus
-bindsym $mod+j focus left
-bindsym $mod+k focus down
-bindsym $mod+l focus up
-bindsym $mod+semicolon focus right
+bindsym $mod+h focus left
+bindsym $mod+j focus down
+bindsym $mod+k focus up
+bindsym $mod+l focus right
 
 # move focused window
-bindsym $mod+Shift+j move left
-bindsym $mod+Shift+k move down
-bindsym $mod+Shift+l move up
-bindsym $mod+Shift+semicolon move right
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+j move down
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+l move right
 
 # splits
-bindsym $mod+h split h
+bindsym $mod+Shift+v split h
 bindsym $mod+v split v
 
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen toggle
 
-# change container layout (stacked, tabbed, toggle split)
-bindsym $mod+s layout stacking
-bindsym $mod+w layout tabbed
-bindsym $mod+e layout toggle split
-
+####    FLOATING    ####
 # toggle tiling / floating
 bindsym $mod+space floating toggle
 
+# force window to float
+for_window [class="Thunar"] floating enable, resize set 500px 500px
+for_window [class="Pavucontrol"] floating enable 500px 500px
+for_window [class="Nm-connection-editor"] floating enable
+for_window [class="steam"] floating enable
+
+####    WORKSPACES    ####
 #workspace variables
-set $ws1 "1:󰖟"
-set $ws2 "2:code"
-set $ws3 "3:chat"
-set $ws4 "4:games"
-set $ws5 "5:misc"
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
 
 # switch to workspace
 bindsym $mod+1 workspace number $ws1
@@ -97,11 +108,6 @@ bindsym $mod+Shift+2 move container to workspace number $ws2
 bindsym $mod+Shift+3 move container to workspace number $ws3
 bindsym $mod+Shift+4 move container to workspace number $ws4
 bindsym $mod+Shift+5 move container to workspace number $ws5
-
-# reload the configuration file
-bindsym $mod+Shift+c reload
-# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
-bindsym $mod+Shift+r restart
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -125,11 +131,8 @@ bindsym $mod+Shift+d exec rofi -modi emoji -show emoji -emoji-mode insert
 
 ####    APPLICATION EXECUTION   #### 
 exec_always  setxkbmap us,be
-exec -–no-startup-id vmware-user-suid-wrapper
-exec -–no-startup-id copyq &
+exec_always -–no-startup-id copyq &
 exec_always --no-startup-id ~/.config/polybar/launch.sh
-exec_always --no-startup-id feh --bg-fill --randomize ~/Documents/Wallpapers/*
-exec_always --no-startup-id xrandr --output Virtual-1 --mode 1920x1080
-exec_always --no-startup-id xrandr --output Virtual-2 --mode 1920x1080 --right-of Virtual-1
+exec_always --no-startup-id wal -i ~/Documents/Wallpapers/
 exec_always --no-startup-id sleep 2 && picom -b --config .config/picom/picom.conf
 
